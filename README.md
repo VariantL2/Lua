@@ -1,6 +1,10 @@
 # Cynn UI V1
 
 This is like my first time making a UI Library so I can't add a lot of stuff into it. Still planning on reworking the label and making paragraph.
+FYI; This UI uses size scaling.
+
+# UI Preview
+![UIPrivew](https://github.com/VariantL2/Lua/assets/129179825/76ca970e-1d20-48d7-b815-0d4946998960)
 
 ## Booting the library
 ```lua
