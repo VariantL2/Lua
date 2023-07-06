@@ -33,13 +33,14 @@ function Library:CreateWindow(options)
 		MainFrameUIStroke = Color3.fromRGB(10, 38, 161),
 		SecondaryFrameUIStroke = Color3.fromRGB(139, 0, 0)
 	}, options or {})
-	
+
 	local GUI = {
 		CurrentTab = nil,
 		closeButtonHover = false,
 		frameHover = false,
+		minimizeButtonHover = false
 	}
-	
+
 	-- Main Frame
 	do
 		-- StarterGui.CynnFul Task
@@ -158,18 +159,45 @@ function Library:CreateWindow(options)
 		GUI["c"]["Name"] = [[MinimiseButton]];
 		GUI["c"]["BackgroundTransparency"] = 1;
 		GUI["c"]["Position"] = UDim2.new(0.5, 0, 0.29921260476112366, 0);
+		
+		-- StarterGui.CynnFul Task.MinimizedFrameHandler
+		GUI["Minimize"] = Instance.new("Frame", GUI["1"]);
+		GUI['Minimize']["BorderSizePixel"] = 0;
+		GUI['Minimize']["BackgroundColor3"] = Color3.fromRGB(39, 39, 39);
+		GUI['Minimize']["AnchorPoint"] = Vector2.new(0.5, 0.5);
+		GUI['Minimize']["Size"] = UDim2.new(0.06344474107027054, 0, 0.11612901091575623, 0);
+		GUI['Minimize']["BorderColor3"] = Color3.fromRGB(0, 0, 0);
+		GUI['Minimize']["Position"] = UDim2.new(0.5319443941116333, 0, -0.09, 0);
+		GUI['Minimize']["Name"] = [[MinimizedFrameHandler]];
+
+		-- StarterGui.CynnFul Task.MinimizedFrameHandler.UICorner
+		GUI["MinimzeCorner"] = Instance.new("UICorner", GUI['Minimize']);
+		GUI["MinimzeCorner"]["CornerRadius"] = UDim.new(0, 6);
+
+		-- StarterGui.CynnFul Task.MinimizedFrameHandler.TextLabel
+		GUI['MinimizeText'] = Instance.new("TextLabel", GUI['Minimize']);
+		GUI['MinimizeText']["TextWrapped"] = true;
+		GUI['MinimizeText']["BorderSizePixel"] = 0;
+		GUI['MinimizeText']["BackgroundColor3"] = Color3.fromRGB(255, 255, 255);
+		GUI['MinimizeText']["FontFace"] = Font.new([[rbxasset://fonts/families/Ubuntu.json]], Enum.FontWeight.Regular, Enum.FontStyle.Normal);
+		GUI['MinimizeText']["TextSize"] = 14;
+		GUI['MinimizeText']["TextColor3"] = Color3.fromRGB(255, 255, 255);
+		GUI['MinimizeText']["Size"] = UDim2.new(1, 0, 1, 0);
+		GUI['MinimizeText']["BorderColor3"] = Color3.fromRGB(0, 0, 0);
+		GUI['MinimizeText']["Text"] = [[Open UI]];
+		GUI['MinimizeText']["BackgroundTransparency"] = 1;
 	end
-	
+
 	-- Shitty Logics
 	do
 		GUI['b'].MouseEnter:Connect(function()
 			GUI.closeButtonHover = true
 		end)
-		
+
 		GUI['b'].MouseLeave:Connect(function()
 			GUI.closeButtonHover = false
 		end)
-		
+
 		uis.InputBegan:Connect(function(input)
 			if input.UserInputType == Enum.UserInputType.MouseButton1 then
 				if GUI.closeButtonHover then
@@ -178,7 +206,7 @@ function Library:CreateWindow(options)
 			end
 		end)
 	end
-	
+
 	-- Navigation
 	do
 		-- StarterGui.CynnFul Task.MainFrame.Navigate
@@ -190,7 +218,7 @@ function Library:CreateWindow(options)
 		GUI["d"]["BorderColor3"] = Color3.fromRGB(0, 0, 0);
 		GUI["d"]["Position"] = UDim2.new(0.1210407093167305, 0, 0.4999999701976776, 0);
 		GUI["d"]["Name"] = [[Navigate]];
-		
+
 		-- StarterGui.CynnFul Task.MainFrame.Navigate.UICorner
 		GUI["1c"] = Instance.new("UICorner", GUI["d"]);
 		GUI["1c"]["CornerRadius"] = UDim.new(0, 6);
@@ -233,7 +261,7 @@ function Library:CreateWindow(options)
 		GUI["13"] = Instance.new("UIListLayout", GUI["10"]);
 		GUI["13"]["Padding"] = UDim.new(0, 10);
 		GUI["13"]["SortOrder"] = Enum.SortOrder.LayoutOrder;
-		
+
 		-- StarterGui.CynnFul Task.MainFrame.Navigate.ContentContainer
 		GUI["1d"] = Instance.new("Frame", GUI["d"]);
 		GUI["1d"]["BorderSizePixel"] = 0;
@@ -246,16 +274,54 @@ function Library:CreateWindow(options)
 		GUI["1d"]["Name"] = [[ContentContainer]];
 	end
 	
+	do
+		GUI['c'].MouseEnter:Connect(function()
+			GUI.minimizeButtonHover = true
+		end)
+
+		GUI['c'].MouseLeave:Connect(function()
+			GUI.minimizeButtonHover = false
+		end)
+
+		uis.InputBegan:Connect(function(input)
+			if input.UserInputType == Enum.UserInputType.MouseButton1 then
+				if GUI.minimizeButtonHover then
+					Library:tween(GUI['2'], {Position = UDim2.fromScale(0.5, 1.34)})
+					Library:tween(GUI['Minimize'], {Position = UDim2.fromScale(0.532, 0.089)})
+				end
+			end
+		end)
+		
+		local openFrameHover = false
+		
+		GUI['Minimize'].MouseEnter:Connect(function()
+			openFrameHover = true
+		end)
+		
+		GUI['Minimize'].MouseLeave:Connect(function()
+			openFrameHover = false
+		end)
+		
+		uis.InputBegan:Connect(function(input)
+			if input.UserInputType == Enum.UserInputType.MouseButton1 then
+				if openFrameHover then
+					Library:tween(GUI['2'], {Position = UDim2.fromScale(0.49953487515449524, 0.5)})
+					Library:tween(GUI['Minimize'], {Position = UDim2.fromScale(0.5319443941116333, -0.09)})
+				end
+			end
+		end)
+	end
+
 	function GUI:CreateTab(options)
 		options = Library:Default({
 			Name = 'Tab you made'
 		}, options or {})
-		
+
 		local Tab = {
 			Hover = false,
 			Active = false
 		}
-		
+
 		-- Button Render
 		do
 			-- StarterGui.CynnFul Task.MainFrame.Navigate.TabButtonsHolder.Inactive Tab
@@ -278,7 +344,7 @@ function Library:CreateWindow(options)
 			-- StarterGui.CynnFul Task.MainFrame.Navigate.TabButtonsHolder.Inactive Tab.UIPadding
 			Tab["19"] = Instance.new("UIPadding", Tab["18"]);
 			Tab["19"]["PaddingLeft"] = UDim.new(0, 10);
-			
+
 			-- StarterGui.CynnFul Task.MainFrame.Navigate.ContentContainer.HomeTab
 			Tab["1e"] = Instance.new("ScrollingFrame", GUI["1d"]);
 			Tab["1e"]["BorderSizePixel"] = 0;
@@ -291,7 +357,7 @@ function Library:CreateWindow(options)
 			Tab["1e"]["Name"] = options['Name'];
 			Tab["1e"]["SelectionGroup"] = false;
 			Tab["1e"]["Visible"] = false;
-			
+
 			-- StarterGui.CynnFul Task.MainFrame.Navigate.ContentContainer.HomeTab.UIListLayout
 			Tab["1f"] = Instance.new("UIListLayout", Tab["1e"]);
 			Tab["1f"]["Padding"] = UDim.new(0, 10);
@@ -302,24 +368,24 @@ function Library:CreateWindow(options)
 			Tab["26"]["PaddingTop"] = UDim.new(0, 6);
 			Tab["26"]["PaddingLeft"] = UDim.new(0, 7);
 		end
-		
+
 		-- Functions
 		function Tab:Activate()
 			if not Tab.Active then
 				if GUI.CurrentTab ~= nil then
 					GUI.CurrentTab:Deactivate()
 				end
-				
+
 				Tab.Active = true
 				Library:tween(Tab['18'], {BackgroundTransparency = .8})
 				Library:tween(Tab['18'], {TextColor3 = Color3.fromRGB(255, 255, 255)})
 				Tab['1e']['Visible'] = true
-				
-				
+
+
 				GUI.CurrentTab = Tab
 			end
 		end
-		
+
 		function Tab:Deactivate()
 			if Tab.Active then
 				Tab.Active = false
@@ -329,7 +395,7 @@ function Library:CreateWindow(options)
 				Tab['1e']['Visible'] = false
 			end
 		end
-		
+
 		-- tab Button Logics
 		do
 			Tab['18'].MouseEnter:Connect(function()
@@ -356,24 +422,24 @@ function Library:CreateWindow(options)
 					end
 				end
 			end)
-			
+
 			if GUI.CurrentTab == nil then
 				Tab:Activate()
 			end
 		end
-		
+
 		-- Tab Elements Creator
 		function Tab:CreateButton(options)
 			options = Library:Default({
 				Name = 'A button',
 				Callback = function() end
 			}, options or {})
-			
+
 			local Button = {
 				hover = false,
 				mouseDown = false
 			}
-			
+
 			-- Rendering Tab's Button [Not the Tab button]
 			do
 				-- StarterGui.CynnFul Task.MainFrame.Navigate.ContentContainer.HomeTab.Button
@@ -424,23 +490,23 @@ function Library:CreateWindow(options)
 				Button["25"]["BackgroundTransparency"] = 1;
 				Button["25"]["Position"] = UDim2.new(0.9429447650909424, 0, 0.48322877287864685, 0);
 			end
-			
+
 			-- Button methods
 			function Button:SetText(text)
 				Button['22']['Text'] = text
 			end
-				
+
 			function Button:SetCallback(func)
 				options['Callback'] = func
 			end
-			
+
 			-- Button logics
 			do
 				Button['20'].MouseEnter:Connect(function()
 					Button.hover = true
 					Library:tween(Button['24'], {Color = Color3.fromRGB(180, 180, 180)})
 				end)
-				
+
 				Button['20'].MouseLeave:Connect(function()
 					Button.hover = false
 
@@ -448,7 +514,7 @@ function Library:CreateWindow(options)
 						Library:tween(Button['24'], {Color = Color3.fromRGB(140, 140, 140)})
 					end
 				end)
-				
+
 				uis.InputBegan:Connect(function(input)
 					if input.UserInputType == Enum.UserInputType.MouseButton1 and Button.hover then
 						Button.mouseDown = true
@@ -460,11 +526,11 @@ function Library:CreateWindow(options)
 						end
 					end
 				end)
-				
+
 				uis.InputEnded:Connect(function(input)
 					if input.UserInputType == Enum.UserInputType.MouseButton1 then
 						Button.mouseDown = false
-						
+
 						if Button.hover then
 							Library:tween(Button['20'], {BackgroundColor3 = Color3.fromRGB(41, 41, 41)})
 							Library:tween(Button['24'], {Color = Color3.fromRGB(180, 180, 180)})
@@ -475,18 +541,18 @@ function Library:CreateWindow(options)
 					end
 				end)
 			end
-			
+
 			return Button
 		end
-		
+
 		function Tab:CreateLabel(options)
 			options = Library:Default({
 				Content = 'This is a label',
 				MiddleUIGradient = true
 			}, options or {})
-			
+
 			local Label = {}
-			
+
 			-- Label Render
 			do
 				-- StarterGui.CynnFul Task.MainFrame.Navigate.ContentContainer.HomeTab.Label
@@ -525,18 +591,18 @@ function Library:CreateWindow(options)
 				Label["2b"]["Transparency"] = NumberSequence.new{NumberSequenceKeypoint.new(0.000, 0),NumberSequenceKeypoint.new(0.486, 0.9375),NumberSequenceKeypoint.new(1.000, 0)};
 				Label["2b"]["Color"] = ColorSequence.new{ColorSequenceKeypoint.new(0.000, Color3.fromRGB(255, 164, 4)),ColorSequenceKeypoint.new(0.493, Color3.fromRGB(255, 255, 255)),ColorSequenceKeypoint.new(1.000, Color3.fromRGB(255, 164, 4))};
 			end
-			
+
 			-- methods
 			function Label:Set(text)
 				Label['29']['Text'] = text
 			end
-			
+
 			-- Logics
 			do
 				if options['MiddleUIGradient'] == false then
 					-- Setting the gradient to false
 					Label['2b']['Enabled'] = false
-					
+
 					-- UIStroke instance
 					Label['UIStroke27'] = Instance.new('UIStroke', Label['29'])
 					Label['UIStroke27']['ApplyStrokeMode'] = Enum.ApplyStrokeMode.Contextual
@@ -548,10 +614,10 @@ function Library:CreateWindow(options)
 					end
 				end
 			end
-			
+
 			return Label
 		end
-		
+
 		function Tab:CreateSlider(options)
 			options = Library:Default({
 				Name = 'Slider you made',
@@ -560,13 +626,13 @@ function Library:CreateWindow(options)
 				Default = 16,
 				Callback = function(sliderValue) end
 			}, options or {})
-			
+
 			local Slider = {
 				hover = false,
 				mouseDown = false,
 				Connection = nil
 			}
-			
+
 			-- Render
 			do
 				-- StarterGui.CynnFul Task.MainFrame.Navigate.ContentContainer.HomeTab.Slider
@@ -651,7 +717,7 @@ function Library:CreateWindow(options)
 				Slider["36"] = Instance.new("UICorner", Slider["35"]);
 				Slider["36"]["CornerRadius"] = UDim.new(0, 6);
 			end
-			
+
 			-- Methods
 			function Slider:SetValue(val: number)
 				local mouse = plr:GetMouse()
@@ -667,11 +733,11 @@ function Library:CreateWindow(options)
 				end
 				options.Callback(Slider:GetValue())
 			end
-			
+
 			function Slider:GetValue()
 				return tonumber(Slider['31']['Text'])
 			end
-			
+
 			-- Logics
 			do
 				Slider['2c'].MouseEnter:Connect(function()
@@ -698,7 +764,7 @@ function Library:CreateWindow(options)
 						Library:tween(Slider['30'], {Color = Color3.fromRGB(255, 255, 255)})
 						Library:tween(Slider['34'], {Color = Color3.fromRGB(255, 255, 255)})
 						Library:tween(Slider['35'], {BackgroundColor3 = Color3.fromRGB(230, 230, 230)})
-						
+
 						if not Slider.Connection then
 							Slider.Connection = runService.RenderStepped:Connect(function()
 								Slider:SetValue()
@@ -722,28 +788,28 @@ function Library:CreateWindow(options)
 							Library:tween(Slider['34'], {Color = Color3.fromRGB(140, 140, 140)})
 							Library:tween(Slider['35'], {BackgroundColor3 = Color3.fromRGB(121, 121, 121)})
 						end
-						
+
 						if Slider.Connection then Slider.Connection:Disconnect() end
 						Slider.Connection = nil
 					end
 				end)
 			end
-			
+
 			return Slider
 		end
-		
+
 		function Tab:CreateToggle(options)
 			options = Library:Default({
 				Name = 'A toggle',
 				Callback = function() end
 			}, options or {})
-			
+
 			local Toggle = {
 				hover = false,
 				mouseDown = false,
 				state = false
 			}
-			
+
 			-- Render
 			do
 				-- StarterGui.CynnFul Task.MainFrame.Navigate.ContentContainer.HomeTab.InactiveToggle
@@ -809,7 +875,7 @@ function Library:CreateWindow(options)
 				Toggle["53"] = Instance.new("UICorner", Toggle["51"]);
 				Toggle["53"]["CornerRadius"] = UDim.new(0, 6);
 			end
-			
+
 			-- Methods
 			function Toggle:SetState(bool)
 				if bool == nil then
@@ -817,16 +883,16 @@ function Library:CreateWindow(options)
 				else
 					Toggle.state = bool
 				end
-				
+
 				if Toggle.state then
 					Library:tween(Toggle['52'], {ImageTransparency = 0})
 				else
 					Library:tween(Toggle['52'], {ImageTransparency = 1})
 				end
-				
+
 				options['Callback'](Toggle.state)
 			end
-			
+
 			-- Logics
 			do
 				Toggle['4c'].MouseEnter:Connect(function()
@@ -865,10 +931,10 @@ function Library:CreateWindow(options)
 					end
 				end)
 			end
-			
+
 			return Toggle
 		end
-		
+
 		function Tab:CreateDropdown(options)
 			options = Library:Default({
 				Name = 'Dropdowns',
@@ -876,7 +942,7 @@ function Library:CreateWindow(options)
 				Items = {},
 				Callback = function() end
 			}, options or {})
-			
+
 			local Dropdown = {
 				Items = {
 					['id'] = {
@@ -886,7 +952,7 @@ function Library:CreateWindow(options)
 				hover = false,
 				mouseDown = false
 			}
-			
+
 			-- Render
 			do
 				-- StarterGui.CynnFul Task.MainFrame.Navigate.ContentContainer.HomeTab.Dropdown
@@ -964,18 +1030,18 @@ function Library:CreateWindow(options)
 				Dropdown["43"]["PaddingTop"] = UDim.new(0, 7);
 				Dropdown["43"]["PaddingLeft"] = UDim.new(0, 5);
 			end
-			
+
 			-- Methods
 			function Dropdown:AddItem(id, val)
 				local Item = {
 					hover = false,
 					mouseDown = false
 				}
-				
+
 				if Dropdown.Items[id] ~= nil then
 					return
 				end
-				
+
 				Dropdown.Items[id] = {
 					instane = {},
 					value = val
@@ -1011,7 +1077,7 @@ function Library:CreateWindow(options)
 				Dropdown.Items[id].instance["47"]["BorderColor3"] = Color3.fromRGB(0, 0, 0);
 				Dropdown.Items[id].instance["47"]["Text"] = id;
 				Dropdown.Items[id].instance["47"]["BackgroundTransparency"] = 1;
-				
+
 				-- Options Logic
 				Dropdown.Items[id].instance["44"].MouseEnter:Connect(function()
 					Item.hover = true
@@ -1049,7 +1115,7 @@ function Library:CreateWindow(options)
 					end
 				end)
 			end
-			
+
 			function Dropdown:RemoveItem(id)
 				if Dropdown.Items[id] ~= nil then
 					for i, v in pairs(Dropdown.Items[id].instance) do
@@ -1058,13 +1124,13 @@ function Library:CreateWindow(options)
 					Dropdown.Items[id] = nil
 				end
 			end
-			
+
 			function Dropdown:SweepItems()
 				for i, v in pairs(Dropdown.Items) do
 					Dropdown.RemoveItem()
 				end
 			end
-			
+
 			-- Logics
 			do
 				Dropdown['37'].MouseEnter:Connect(function()
@@ -1102,13 +1168,13 @@ function Library:CreateWindow(options)
 					end
 				end)
 			end
-			
+
 			return Dropdown
 		end
-		
+
 		return Tab
 	end
-	
+
 	return GUI
 end
 
