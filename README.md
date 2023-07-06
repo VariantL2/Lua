@@ -82,7 +82,7 @@ local Toggle = Tab:CreateToggle({
   end
 })
 ```
-### Uodating a toggle
+### Updating a toggle
 ```lua
 Toggle:SetState(true)
 ```
