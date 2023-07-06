@@ -43,7 +43,7 @@ local Button = Tab:CreateButton({
 ### Updating a button
 ```lua
 Button:SetText('Button title has been changed')
-Button:SetCallback(-- The new function to replace the old function)
+Button:SetCallback(-- The new function to replace the old function--)
 ```
 ## Creating a label
 ```lua
