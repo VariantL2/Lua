@@ -58,7 +58,6 @@ function Library:CreateWindow(options)
 		GUI["2"]["BorderColor3"] = Color3.fromRGB(0, 0, 0);
 		GUI["2"]["Position"] = UDim2.new(0.49953487515449524, 0, 0.5, 0);
 		GUI["2"]["Name"] = [[MainFrame]];
-		GUI['2']['Draggable'] = true;
 
 		-- StarterGui.CynnFul Task.MainFrame.UICorner
 		GUI["3"] = Instance.new("UICorner", GUI["2"]);
