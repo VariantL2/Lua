@@ -42,7 +42,7 @@ function Library:CreateWindow(options)
 	-- Main Frame
 	do
 		-- StarterGui.CynnFul Task
-		GUI["1"] = Instance.new("ScreenGui", runService:IsStudio() and plr:WaitForChild("PlayerGui") or coreGui);
+		GUI["1"] = Instance.new("ScreenGui", coreGui);
 		GUI["1"]["Enabled"] = true;
 		GUI["1"]["Name"] = [[CynnFul Task]];
 		GUI['1']['IgnoreGuiInset'] = true
