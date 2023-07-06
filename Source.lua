@@ -9,6 +9,8 @@ local viewport = workspace.CurrentCamera.ViewportSize
 
 local Library = {}
 
+Library.__index = Library
+
 function Library:tween(instance, goal, callback)
 	local info = TweenInfo.new(0.2, Enum.EasingStyle.Quad, Enum.EasingDirection.InOut)
 	local tween = tweenService:Create(instance, info, goal)
