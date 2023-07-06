@@ -36,7 +36,8 @@ function Library:CreateWindow(options)
 	
 	local GUI = {
 		CurrentTab = nil,
-		closeButtonHover = false
+		closeButtonHover = false,
+		frameHover = false,
 	}
 	
 	-- Main Frame
@@ -174,6 +175,46 @@ function Library:CreateWindow(options)
 				if GUI.closeButtonHover then
 					GUI['1']:Destroy()
 				end
+			end
+		end)
+
+		-- Frame drag
+		local movwCon = nil
+		local initialX, initialY, UIinitialPos
+		local Speed = 2
+		local mouse = plr:GetMouse()
+		
+		local function drag()
+			if GUI.frameHover == false then moveCon:Disconnect(); return end
+			local distanceMovedX = (initialX - mouse.X)*Speed
+			local distanceMovedY = (initialY - mouse.Y)*Speed
+
+			local pos = UIinitialPos - UDim2.new(distanceMovedX/viewport.X, 0, distanceMovedY/viewport.Y, 0)
+			GUI['2'].Position = UDim2.new(math.clamp(pos.X.Scale, 0, 1-GUI['2'].Size.X.Scale), 0, math.clamp(pos.Y.Scale, 0, 1-GUI['2'].Size.Y.Scale), 0)
+		end
+		
+		GUI['2'].MouseEnter:Connect(function()
+			GUI.frameHover = true
+		end)
+
+		GUI['2'].MouseLeave:Connect(function()
+			GUI.frameHover = false	
+		end)
+
+		uis.InputBegan:Connect(function(input)
+			if input.UserInputType == Enum.UserInputType.MouseButton1 then
+				if GUI.frameHover then
+					initialX, initialY = mouse.X, mouse.Y
+					UIinitialPos = GUI['2'].Position
+
+					moveCon = mouse.Move:Connect(drag)
+				end
+			end
+		end)
+
+		uis.InputEnded:Connect(function(input)
+			if input.UserInputType == Enum.UserInputType.MouseButton1 then
+				GUI.frameHover = false
 			end
 		end)
 	end
