@@ -985,7 +985,7 @@ function Library:CreateWindow(options)
 				Dropdown.Items[id].instance["44"] = Instance.new("Frame", Dropdown["3d"]);
 				Dropdown.Items[id].instance["44"]["BorderSizePixel"] = 0;
 				Dropdown.Items[id].instance["44"]["BackgroundColor3"] = Color3.fromRGB(58, 58, 58);
-				Dropdown.Items[id].instance["44"]["Size"] = UDim2.new(0, 288, 0, 25);
+				Dropdown.Items[id].instance["44"]["Size"] = UDim2.new(0.98, 0, 0.098, 0);
 				Dropdown.Items[id].instance["44"]["BorderColor3"] = Color3.fromRGB(0, 0, 0);
 				Dropdown.Items[id].instance["44"]["Position"] = UDim2.new(0.01680818200111389, 0, 0.03671697527170181, 0);
 				Dropdown.Items[id].instance["44"]["Name"] = [[Option2]];
