@@ -29,9 +29,7 @@ local Window = CynnUI:CreateWindow({
 ```
 ## Creating a tab
 ```lua
-local Tab = Window:CreateTab({
-  Name = 'A Tab'
-})
+local Tab = Window:CreateTab('Tab Name')
 ```
 ## Creating a button
 ```lua
