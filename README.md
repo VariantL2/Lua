@@ -109,3 +109,10 @@ Dropdown:SweepItems() -- Clears every item and its value inside a dropdown
 Big credit to
 # Deity
 For the UI Tutorial.
+# Changelogs
+- Added auto scale for paragraph and label -- Is not working really well
+- Added paragraph
+- Added minimize support
+
+# Known Bug
+- Dropdown:SweepItems() indexing nil
