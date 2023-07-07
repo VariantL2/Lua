@@ -312,10 +312,7 @@ function Library:CreateWindow(options)
 		end)
 	end
 
-	function GUI:CreateTab(options)
-		options = Library:Default({
-			Name = 'Tab you made'
-		}, options or {})
+	function GUI:CreateTab(Name: string)
 
 		local Tab = {
 			Hover = false,
@@ -336,8 +333,8 @@ function Library:CreateWindow(options)
 			Tab["18"]["TextColor3"] = Color3.fromRGB(186, 186, 186);
 			Tab["18"]["Size"] = UDim2.new(1, 0, 0.10204081982374191, 0);
 			Tab["18"]["BorderColor3"] = Color3.fromRGB(0, 0, 0);
-			Tab["18"]["Text"] = options['Name'];
-			Tab["18"]["Name"] = options['Name'];
+			Tab["18"]["Text"] = Name;
+			Tab["18"]["Name"] = Name;
 			Tab["18"]["BackgroundTransparency"] = 0.9599999785423279;
 			Tab["18"]["Position"] = UDim2.new(0, 0, 0.025806451216340065, 0);
 
@@ -354,7 +351,7 @@ function Library:CreateWindow(options)
 			Tab["1e"]["Selectable"] = false;
 			Tab["1e"]["BorderColor3"] = Color3.fromRGB(0, 0, 0);
 			Tab["1e"]["ScrollBarThickness"] = 2;
-			Tab["1e"]["Name"] = options['Name'];
+			Tab["1e"]["Name"] = Name;
 			Tab["1e"]["SelectionGroup"] = false;
 			Tab["1e"]["Visible"] = false;
 
@@ -575,11 +572,15 @@ function Library:CreateWindow(options)
 				Label["29"]["FontFace"] = Font.new([[rbxasset://fonts/families/Ubuntu.json]], Enum.FontWeight.Regular, Enum.FontStyle.Normal);
 				Label["29"]["TextSize"] = 15;
 				Label["29"]["TextColor3"] = Color3.fromRGB(210, 210, 210);
+				Label['29']["Text"] = options.Content;
 				Label["29"]["Size"] = UDim2.new(0.9999998211860657, 0, 1, 0);
 				Label["29"]["BorderColor3"] = Color3.fromRGB(0, 0, 0);
 				Label["29"]["Name"] = [[LabelName]];
 				Label["29"]["BackgroundTransparency"] = 1;
 				Label["29"]["Position"] = UDim2.new(3.077688859320915e-07, 0, 0, 0);
+				Label['29']['TextWrapped'] = true;
+				Label['29']['TextXAlignment'] = Enum.TextXAlignment.Center;
+				Label['29']['TextYAlignment'] = Enum.TextYAlignment.Center;
 
 				-- StarterGui.CynnFul Task.MainFrame.Navigate.ContentContainer.HomeTab.Label.UIStroke
 				Label["2a"] = Instance.new("UIStroke", Label["27"]);
@@ -594,7 +595,15 @@ function Library:CreateWindow(options)
 
 			-- methods
 			function Label:Set(text)
-				Label['29']['Text'] = text
+				options.Content = text
+				Label:__update()
+			end
+			
+			function Label:__update()
+				Label['29']['Text'] = options.Content
+				Label['29']['Size'] = UDim2.new(Label['29'].Size.X.Scale, Label['29'].Size.X.Offset, 0, math.huge)
+				Label['29']['Size'] = UDim2.new(Label['29'].Size.X.Scale, Label['29'].Size.X.Offset, 0, Label['29'].TextBounds.Y)
+				Label['27']['Size'] = UDim2.new(Label['27'].Size.X.Scale, Label['29'].Size.X.Offset, 0, Label['29'].TextBounds.Y + 12)
 			end
 
 			-- Logics
@@ -614,7 +623,9 @@ function Library:CreateWindow(options)
 					end
 				end
 			end
-
+			
+			Label:__update()
+			
 			return Label
 		end
 
@@ -877,7 +888,7 @@ function Library:CreateWindow(options)
 			end
 
 			-- Methods
-			function Toggle:SetState(bool)
+			function Toggle:SetState(bool: boolean)
 				if bool == nil then
 					Toggle.state = not Toggle.state
 				else
@@ -1170,6 +1181,100 @@ function Library:CreateWindow(options)
 			end
 
 			return Dropdown
+		end
+		
+		function Tab:CreateParagraph(options)
+			options = Library:Default({
+				Title = 'A paragraph',
+				Content = 'This is a content for the paragraph. I don\'t know if this will rescale, but I hope it would.'
+			}, options or {})
+			
+			local Paragraph = {}
+			
+			-- Render
+			do
+				-- StarterGui.CynnFul Task.MainFrame.Navigate.ContentContainer.HomeTab.Paragraph
+				Paragraph["54"] = Instance.new("Frame", Tab["1e"]);
+				Paragraph["54"]["BorderSizePixel"] = 0;
+				Paragraph["54"]["BackgroundColor3"] = Color3.fromRGB(41, 41, 41);
+				Paragraph["54"]["Size"] = UDim2.new(0.9651045799255371, 0, 0.1795540601015091, 0);
+				Paragraph["54"]["BorderColor3"] = Color3.fromRGB(0, 0, 0);
+				Paragraph["54"]["Position"] = UDim2.new(0.022082891315221786, 0, 0.33665016293525696, 0);
+				Paragraph["54"]["Name"] = [[Paragraph]];
+
+				-- StarterGui.CynnFul Task.MainFrame.Navigate.ContentContainer.HomeTab.Paragraph.UICorner
+				Paragraph["55"] = Instance.new("UICorner", Paragraph["54"]);
+				Paragraph["55"]["CornerRadius"] = UDim.new(0, 6);
+
+				-- StarterGui.CynnFul Task.MainFrame.Navigate.ContentContainer.HomeTab.Paragraph.ParagraphName
+				Paragraph["56"] = Instance.new("TextLabel", Paragraph["54"]);
+				Paragraph["56"]["BorderSizePixel"] = 0;
+				Paragraph["56"]["TextYAlignment"] = Enum.TextYAlignment.Top;
+				Paragraph["56"]["BackgroundColor3"] = Color3.fromRGB(255, 255, 255);
+				Paragraph["56"]["TextXAlignment"] = Enum.TextXAlignment.Left;
+				Paragraph["56"]["FontFace"] = Font.new([[rbxasset://fonts/families/Ubuntu.json]], Enum.FontWeight.Regular, Enum.FontStyle.Normal);
+				Paragraph["56"]["TextSize"] = 14;
+				Paragraph["56"]["TextColor3"] = Color3.fromRGB(210, 210, 210);
+				Paragraph["56"]["Size"] = UDim2.new(1, 0, 0.11688698083162308, 0);
+				Paragraph["56"]["BorderColor3"] = Color3.fromRGB(0, 0, 0);
+				Paragraph["56"]["Text"] = options.Title;
+				Paragraph["56"]["Name"] = [[ParagraphName]];
+				Paragraph["56"]["BackgroundTransparency"] = 1;
+				Paragraph["56"]["Position"] = UDim2.new(0.010084856301546097, 0, 0.06003579869866371, 0);
+
+				-- StarterGui.CynnFul Task.MainFrame.Navigate.ContentContainer.HomeTab.Paragraph.ParagraphName.UIPadding
+				Paragraph["57"] = Instance.new("UIPadding", Paragraph["56"]);
+				Paragraph["57"]["PaddingLeft"] = UDim.new(0, 9);
+
+				-- StarterGui.CynnFul Task.MainFrame.Navigate.ContentContainer.HomeTab.Paragraph.UIStroke
+				Paragraph["58"] = Instance.new("UIStroke", Paragraph["54"]);
+				Paragraph["58"]["Color"] = Color3.fromRGB(140, 140, 140);
+				Paragraph["58"]["ApplyStrokeMode"] = Enum.ApplyStrokeMode.Border;
+
+				-- StarterGui.CynnFul Task.MainFrame.Navigate.ContentContainer.HomeTab.Paragraph.ParagraphContent
+				Paragraph["59"] = Instance.new("TextLabel", Paragraph["54"]);
+				Paragraph["59"]["BorderSizePixel"] = 0;
+				Paragraph["59"]["TextYAlignment"] = Enum.TextYAlignment.Center;
+				Paragraph["59"]["BackgroundColor3"] = Color3.fromRGB(255, 255, 255);
+				Paragraph["59"]["TextXAlignment"] = Enum.TextXAlignment.Left;
+				Paragraph["59"]["FontFace"] = Font.new([[rbxasset://fonts/families/Ubuntu.json]], Enum.FontWeight.Regular, Enum.FontStyle.Normal);
+				Paragraph["59"]["TextSize"] = 10;
+				Paragraph["59"]["TextColor3"] = Color3.fromRGB(210, 210, 210);
+				Paragraph["59"]["Size"] = UDim2.new(0.9999428987503052, 0, 0.09797626733779907, 0);
+				Paragraph["59"]["BorderColor3"] = Color3.fromRGB(0, 0, 0);
+				Paragraph["59"]["Text"] = options.Content;
+				Paragraph["59"]["Name"] = [[ParagraphContent]];
+				Paragraph["59"]["BackgroundTransparency"] = 1;
+				Paragraph["59"]["Position"] = UDim2.new(0.010084856301546097, 0, 0.25886279344558716, 0);
+				Paragraph["59"]["TextWrapped"] = true;
+
+				-- StarterGui.CynnFul Task.MainFrame.Navigate.ContentContainer.HomeTab.Paragraph.ParagraphContent.UIPadding
+				Paragraph["5a"] = Instance.new("UIPadding", Paragraph["59"]);
+				Paragraph["5a"]["PaddingLeft"] = UDim.new(0, 9);
+			end
+			
+			-- Methods
+			function Paragraph:SetTitle(text: string)
+				options.Title = text
+				Paragraph:__update()
+			end
+			
+			function Paragraph:SetContent(text: string)
+				options.Content = text
+				Paragraph:__update()
+			end
+			
+			function Paragraph:__update()
+				Paragraph['56']['Text'] = options.Title
+				
+				Paragraph['59']['Size'] = UDim2.new(Paragraph['59'].Size.X.Scale, Paragraph['59'].Size.X.Offset, 0, math.huge)
+				Paragraph['59']['Size'] = UDim2.new(Paragraph['59'].Size.X.Scale, Paragraph['59'].Size.X.Offset, 0, Paragraph['59'].TextBounds.Y)
+				Paragraph['54'].Size = UDim2.new(Paragraph['54'].Size.X.Scale, Paragraph['59'].Size.X.Offset, 0, Paragraph['59'].TextBounds.Y + 20)
+			end
+			
+			Paragraph:__update()
+			
+			return Paragraph
 		end
 
 		return Tab
