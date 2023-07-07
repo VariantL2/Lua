@@ -7,13 +7,17 @@ FYI; This UI uses size scaling.
 ![UIPrivew](https://github.com/VariantL2/Lua/assets/129179825/76ca970e-1d20-48d7-b815-0d4946998960)
 
 # Changelogs
+- Fixed paragraph auto scale
+- Fixed 'Open UI' frame wrong position
+- Fixed Dropdown:SweepItems()
+---------------------------------------------------------------------------
 - Changed tab constructor to arguments
 - Added auto scale for paragraph and label -- Is not working really well
 - Added paragraph
 - Added minimize support
 
 # Known Bug
-- Dropdown:SweepItems() indexing nil
+- From some reason, if you add too many text in paragraph content, it would only display a little and would need a bigger title to appear, yet the title would also need a bigger room. You also can't put 1 line in a content otherwise it's position is wrong. I'm considering to delete this or not.
 
 ## Booting the library
 ```lua
@@ -112,6 +116,18 @@ local Dropdown = Tab:CreateDropdown({
 Dropdown:AddItem('Item name', 99) -- First argument is the item name, second is the item's value
 Dropdown:RemoveItem('Item name') -- Item name must be the same to not create an nil indexing error
 Dropdown:SweepItems() -- Clears every item and its value inside a dropdown
+```
+## Creating a paragraph
+```lua
+local Paragraph = Tab:CraeteParagraph({
+  Title = 'Title here',
+  Content = 'Content here'
+})
+```
+### Updating a paragraph
+```lua
+Paragraph:SetTitle('New Title") -- Argument should be a string
+Paragraph:SetContent('New content, please consider to make this content long or else it will bug') -- Argument shold be a string too
 ```
 Big credit to
 # Deity
