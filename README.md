@@ -6,6 +6,14 @@ FYI; This UI uses size scaling.
 # UI Preview
 ![UIPrivew](https://github.com/VariantL2/Lua/assets/129179825/76ca970e-1d20-48d7-b815-0d4946998960)
 
+# Changelogs
+- Added auto scale for paragraph and label -- Is not working really well
+- Added paragraph
+- Added minimize support
+
+# Known Bug
+- Dropdown:SweepItems() indexing nil
+
 ## Booting the library
 ```lua
 local CynnUI = loadstring(game:HttpGet('https://raw.githubusercontent.com/VariantL2/Lua/main/Source.lua'))()
@@ -109,10 +117,3 @@ Dropdown:SweepItems() -- Clears every item and its value inside a dropdown
 Big credit to
 # Deity
 For the UI Tutorial.
-# Changelogs
-- Added auto scale for paragraph and label -- Is not working really well
-- Added paragraph
-- Added minimize support
-
-# Known Bug
-- Dropdown:SweepItems() indexing nil
