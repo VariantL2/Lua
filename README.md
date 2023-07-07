@@ -7,6 +7,7 @@ FYI; This UI uses size scaling.
 ![UIPrivew](https://github.com/VariantL2/Lua/assets/129179825/76ca970e-1d20-48d7-b815-0d4946998960)
 
 # Changelogs
+- Changed tab constructor to arguments
 - Added auto scale for paragraph and label -- Is not working really well
 - Added paragraph
 - Added minimize support
