@@ -1054,7 +1054,7 @@ function Library:CreateWindow(options)
 				end
 
 				Dropdown.Items[id] = {
-					instane = {},
+					instance = {},
 					value = val
 				}
 				Dropdown.Items[id].instance = {}
@@ -1105,6 +1105,9 @@ function Library:CreateWindow(options)
 
 				uis.InputBegan:Connect(function(input)
 					if input.UserInputType == Enum.UserInputType.MouseButton1 and Item.hover then
+						
+						if Dropdown.Items[id] == nil then return end
+						
 						Item.mouseDown = true
 						Library:tween(Dropdown.Items[id].instance["44"], {BackgroundColor3 = Color3.fromRGB(170, 170, 170)})
 						Library:tween(Dropdown.Items[id].instance["46"], {Color = Color3.fromRGB(255, 255, 255)})
@@ -1115,6 +1118,8 @@ function Library:CreateWindow(options)
 				uis.InputEnded:Connect(function(input)
 					if input.UserInputType == Enum.UserInputType.MouseButton1 then
 						Item.mouseDown = false
+						
+						if Dropdown.Items[id] == nil then return end
 
 						if Item.hover then
 							Library:tween(Dropdown.Items[id].instance["44"], {BackgroundColor3 = Color3.fromRGB(41, 41, 41)})
@@ -1129,8 +1134,10 @@ function Library:CreateWindow(options)
 
 			function Dropdown:RemoveItem(id)
 				if Dropdown.Items[id] ~= nil then
-					for i, v in pairs(Dropdown.Items[id].instance) do
-						v:Destroy()
+					if Dropdown.Items[id].instance ~= nil then
+						for i, v in pairs(Dropdown.Items[id].instance) do
+							v:Destroy()
+						end
 					end
 					Dropdown.Items[id] = nil
 				end
@@ -1197,16 +1204,16 @@ function Library:CreateWindow(options)
 				Paragraph["54"] = Instance.new("Frame", Tab["1e"]);
 				Paragraph["54"]["BorderSizePixel"] = 0;
 				Paragraph["54"]["BackgroundColor3"] = Color3.fromRGB(41, 41, 41);
-				Paragraph["54"]["Size"] = UDim2.new(0.9651045799255371, 0, 0.1795540601015091, 0);
+				Paragraph["54"]["Size"] = UDim2.new(0.9651045799255371, 0, 0.06136682257056236, 0);
 				Paragraph["54"]["BorderColor3"] = Color3.fromRGB(0, 0, 0);
-				Paragraph["54"]["Position"] = UDim2.new(0.022082891315221786, 0, 0.33665016293525696, 0);
+				Paragraph["54"]["Position"] = UDim2.new(0.022082891315221786, 0, 0.2895769476890564, 0);
 				Paragraph["54"]["Name"] = [[Paragraph]];
 
 				-- StarterGui.CynnFul Task.MainFrame.Navigate.ContentContainer.HomeTab.Paragraph.UICorner
 				Paragraph["55"] = Instance.new("UICorner", Paragraph["54"]);
 				Paragraph["55"]["CornerRadius"] = UDim.new(0, 6);
 
-				-- StarterGui.CynnFul Task.MainFrame.Navigate.ContentContainer.HomeTab.Paragraph.ParagraphName
+				-- StarterGui.CynnFul Task.MainFrame.Navigate.ContentContainer.HomeTab.Paragraph.Paragraphname
 				Paragraph["56"] = Instance.new("TextLabel", Paragraph["54"]);
 				Paragraph["56"]["BorderSizePixel"] = 0;
 				Paragraph["56"]["TextYAlignment"] = Enum.TextYAlignment.Top;
@@ -1215,14 +1222,14 @@ function Library:CreateWindow(options)
 				Paragraph["56"]["FontFace"] = Font.new([[rbxasset://fonts/families/Ubuntu.json]], Enum.FontWeight.Regular, Enum.FontStyle.Normal);
 				Paragraph["56"]["TextSize"] = 14;
 				Paragraph["56"]["TextColor3"] = Color3.fromRGB(210, 210, 210);
-				Paragraph["56"]["Size"] = UDim2.new(1, 0, 0.11688698083162308, 0);
+				Paragraph["56"]["Size"] = UDim2.new(1.0099996328353882, 0, 0.15204761922359467, 0);
 				Paragraph["56"]["BorderColor3"] = Color3.fromRGB(0, 0, 0);
 				Paragraph["56"]["Text"] = options.Title;
-				Paragraph["56"]["Name"] = [[ParagraphName]];
+				Paragraph["56"]["Name"] = [[Paragraphname]];
 				Paragraph["56"]["BackgroundTransparency"] = 1;
-				Paragraph["56"]["Position"] = UDim2.new(0.010084856301546097, 0, 0.06003579869866371, 0);
+				Paragraph["56"]["Position"] = UDim2.new(3.060220876704989e-07, 0, 0, 0);
 
-				-- StarterGui.CynnFul Task.MainFrame.Navigate.ContentContainer.HomeTab.Paragraph.ParagraphName.UIPadding
+				-- StarterGui.CynnFul Task.MainFrame.Navigate.ContentContainer.HomeTab.Paragraph.Paragraphname.UIPadding
 				Paragraph["57"] = Instance.new("UIPadding", Paragraph["56"]);
 				Paragraph["57"]["PaddingLeft"] = UDim.new(0, 9);
 
@@ -1231,45 +1238,47 @@ function Library:CreateWindow(options)
 				Paragraph["58"]["Color"] = Color3.fromRGB(140, 140, 140);
 				Paragraph["58"]["ApplyStrokeMode"] = Enum.ApplyStrokeMode.Border;
 
-				-- StarterGui.CynnFul Task.MainFrame.Navigate.ContentContainer.HomeTab.Paragraph.ParagraphContent
+				-- StarterGui.CynnFul Task.MainFrame.Navigate.ContentContainer.HomeTab.Paragraph.Content
 				Paragraph["59"] = Instance.new("TextLabel", Paragraph["54"]);
 				Paragraph["59"]["BorderSizePixel"] = 0;
-				Paragraph["59"]["TextYAlignment"] = Enum.TextYAlignment.Center;
+				Paragraph["59"]["TextYAlignment"] = Enum.TextYAlignment.Top;
 				Paragraph["59"]["BackgroundColor3"] = Color3.fromRGB(255, 255, 255);
 				Paragraph["59"]["TextXAlignment"] = Enum.TextXAlignment.Left;
 				Paragraph["59"]["FontFace"] = Font.new([[rbxasset://fonts/families/Ubuntu.json]], Enum.FontWeight.Regular, Enum.FontStyle.Normal);
 				Paragraph["59"]["TextSize"] = 10;
 				Paragraph["59"]["TextColor3"] = Color3.fromRGB(210, 210, 210);
-				Paragraph["59"]["Size"] = UDim2.new(0.9999428987503052, 0, 0.09797626733779907, 0);
+				Paragraph["59"]["Size"] = UDim2.new(0.9992930889129639, 0, 1.0000005960464478, 0);
 				Paragraph["59"]["BorderColor3"] = Color3.fromRGB(0, 0, 0);
 				Paragraph["59"]["Text"] = options.Content;
-				Paragraph["59"]["Name"] = [[ParagraphContent]];
+				Paragraph["59"]['TextWrapped'] = true;
+				Paragraph["59"]["Name"] = [[Content]];
 				Paragraph["59"]["BackgroundTransparency"] = 1;
-				Paragraph["59"]["Position"] = UDim2.new(0.010084856301546097, 0, 0.25886279344558716, 0);
-				Paragraph["59"]["TextWrapped"] = true;
+				Paragraph["59"]["Position"] = UDim2.new(3.060220876704989e-07, 0, -3.172679328145023e-07, 0);
 
-				-- StarterGui.CynnFul Task.MainFrame.Navigate.ContentContainer.HomeTab.Paragraph.ParagraphContent.UIPadding
+				-- StarterGui.CynnFul Task.MainFrame.Navigate.ContentContainer.HomeTab.Paragraph.Content.UIPadding
 				Paragraph["5a"] = Instance.new("UIPadding", Paragraph["59"]);
+				Paragraph["5a"]["PaddingTop"] = UDim.new(0, 20);
 				Paragraph["5a"]["PaddingLeft"] = UDim.new(0, 9);
 			end
 			
 			-- Methods
-			function Paragraph:SetTitle(text: string)
-				options.Title = text
+			function Paragraph:SetContent(content)
+				options.Content = content
 				Paragraph:__update()
 			end
 			
-			function Paragraph:SetContent(text: string)
-				options.Content = text
+			function Paragraph:SetTitle(title)
+				options.Title = title
 				Paragraph:__update()
 			end
 			
 			function Paragraph:__update()
 				Paragraph['56']['Text'] = options.Title
+				Paragraph['59']['Text'] = options.Content
 				
 				Paragraph['59']['Size'] = UDim2.new(Paragraph['59'].Size.X.Scale, Paragraph['59'].Size.X.Offset, 0, math.huge)
 				Paragraph['59']['Size'] = UDim2.new(Paragraph['59'].Size.X.Scale, Paragraph['59'].Size.X.Offset, 0, Paragraph['59'].TextBounds.Y)
-				Paragraph['54'].Size = UDim2.new(Paragraph['54'].Size.X.Scale, Paragraph['59'].Size.X.Offset, 0, Paragraph['59'].TextBounds.Y + 20)
+				Library:tween(Paragraph['54'], {Size = UDim2.new(Paragraph['54'].Size.X.Scale, Paragraph['59'].Size.X.Offset, 0, Paragraph['59'].TextBounds.Y + 20)})
 			end
 			
 			Paragraph:__update()
