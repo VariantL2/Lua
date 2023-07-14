@@ -26,6 +26,37 @@ local function validate(default, Settings)
 	return Settings
 end
 
+local function addDragging(firstPoint, draggedPoint)
+	pcall(function()
+		local Dragging, DragInput, MousePos, FramePos = false,false,false,false
+		firstPoint.InputBegan:Connect(function(Input)
+			if Input.UserInputType == Enum.UserInputType.MouseButton1 then
+				Dragging = true
+				MousePos = Input.Position
+				FramePos = draggedPoint.Position
+
+				Input.Changed:Connect(function()
+					if Input.UserInputState == Enum.UserInputState.End then
+						Dragging = false
+					end
+				end)
+			end
+		end)
+		firstPoint.InputChanged:Connect(function(Input)
+			if Input.UserInputType == Enum.UserInputType.MouseMovement then
+				DragInput = Input
+			end
+		end)
+		UserInputService.InputChanged:Connect(function(Input)
+			if Input == DragInput and Dragging then
+				local Delta = Input.Position - MousePos
+				TweenService:Create(draggedPoint, TweenInfo.new(0.45, Enum.EasingStyle.Quint, Enum.EasingDirection.Out), {Position  = UDim2.new(FramePos.X.Scale,FramePos.X.Offset + Delta.X, FramePos.Y.Scale, FramePos.Y.Offset + Delta.Y)}):Play()
+				TweenService:Create(InfoPrompt, TweenInfo.new(0.6, Enum.EasingStyle.Quint, Enum.EasingDirection.Out), {Position  = UDim2.new(FramePos.X.Scale,FramePos.X.Offset + Delta.X+ 370, FramePos.Y.Scale, FramePos.Y.Offset + Delta.Y)}):Play()
+			end
+		end)
+	end)
+end
+
 local Atomic = {}
 
 function Atomic:StartAsset(Settings)
@@ -160,6 +191,8 @@ function Atomic:StartAsset(Settings)
 		-- StarterGui.Atomic.NotificationHolder.UIPadding
 		UI['68'] = Instance.new('UIPadding', UI['66']);
 		UI['68']['PaddingBottom'] = UDim.new(0, 10);
+
+		addDragging(UI['2'], UI['2'])
 		
 		if Settings.UIController_Frame then
 			do
