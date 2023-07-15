@@ -923,7 +923,7 @@ function Atomic:StartAsset(Settings)
 			end
 			
 			-- Methods
-			function Label:Update(text)
+			function Label:SetContent(text)
 				Content = text
 				Label['14'].Text = Content
 			end
