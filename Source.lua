@@ -1,3 +1,7 @@
+if game.CoreGui:FindFirstChild('Atomic') then
+	game.CoreGui.Atomic:Destroy()
+end
+
 local coreGui = game:GetService('CoreGui')
 local runService = game:GetService('RunService')
 local tweenService = game:GetService('TweenService')
@@ -5,14 +9,6 @@ local uis = game:GetService('UserInputService')
 local player = game.Players.LocalPlayer
 local mouse = player:GetMouse()
 local viewport = workspace.CurrentCamera.ViewportSize
-
-if runService:IsStudio() and player.PlayerGui:FindFirstChild('Atomic') then
-	player.PlayerGui.Atomic:Destroy()
-elseif coreGui:FindFirstChild('Atomic') then
-	coreGui.Atomic:Destroy()
-else
-	print()
-end
 
 local function Tween(obj: instance, goal)
 	local info = TweenInfo.new(.2, Enum.EasingStyle.Quad, Enum.EasingDirection.InOut)
