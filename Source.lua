@@ -8,8 +8,10 @@ local viewport = workspace.CurrentCamera.ViewportSize
 
 if runService:IsStudio() and coreGui:FindFirstChild('Atomic') then
 	player.PlayerGui.Atomic:Destroy()
-else
+elseif coreGui:FindFirstChild('Atomic') then
 	coreGui.Atomic:Destroy()
+else
+	print()
 end
 
 local function Tween(obj: instance, goal)
