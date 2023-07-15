@@ -6,7 +6,7 @@ local player = game.Players.LocalPlayer
 local mouse = player:GetMouse()
 local viewport = workspace.CurrentCamera.ViewportSize
 
-if runService:IsStudio() and coreGui:FindFirstChild('Atomic') then
+if runService:IsStudio() and player.PlayerGui:FindFirstChild('Atomic') then
 	player.PlayerGui.Atomic:Destroy()
 elseif coreGui:FindFirstChild('Atomic') then
 	coreGui.Atomic:Destroy()
