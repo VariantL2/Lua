@@ -149,7 +149,7 @@ Best part about this is: The only nice interface i've created
 
 To make a notification, you simply do this.
 ```lua
-Atomic:Notify({
+Window:Notify({
   Title = 'Notification title',
   Content = 'Notification content here.',
   Duration = 3
