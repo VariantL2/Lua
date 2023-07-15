@@ -1,134 +1,156 @@
-# Cynn UI V1
+# Atomic
 
-This is like my first time making a UI Library so I can't add a lot of stuff into it. Still planning on reworking the label and making paragraph.
-FYI; This UI uses size scaling.
+This is a remake of Cynn UI which will be my main UI Library now. I will add more things inside the library, remodel some things, and add more tweening. Some elements are pretty bugged so either use it or report it to me (cynnomni).
 
 # UI Preview
-![UIPrivew](https://github.com/VariantL2/Lua/assets/129179825/76ca970e-1d20-48d7-b815-0d4946998960)
+![UIPrivew](https://github.com/VariantL2/Lua/assets/129179825/66b3f175-15fe-4824-835e-4599d4decd2f)
 
 # Changelogs
-- Fixed paragraph auto scale
-- Fixed 'Open UI' frame wrong position
-- Fixed Dropdown:SweepItems()
----------------------------------------------------------------------------
-- Changed tab constructor to arguments
-- Added auto scale for paragraph and label -- Is not working really well
-- Added paragraph
-- Added minimize support
+- Added button and interact text (totally not inspired from Rayfield)
+- Added switch and "FirstState" constructor
+- Added label
+- Added dropdown
+- Added slider
+- Added notification
 
-# Known Bug
-- From some reason, if you add too many text in paragraph content, it would only display a little and would need a bigger title to appear, yet the title would also need a bigger room. You also can't put 1 line in a content otherwise it's position is wrong. I'm considering to delete this or not.
+# Plans
+- Remodeling controller frame
+- Revamping close and minimize function
+- Adding notification sound
 
-## Booting the library
+# Getting started
+First of all; if you want to use this UI, put this into your code.
 ```lua
-local CynnUI = loadstring(game:HttpGet('https://raw.githubusercontent.com/VariantL2/Lua/main/Source.lua'))()
+local Atomic = loadstring(game:HttpGet('https://raw.githubusercontent.com/VariantL2/Lua/main/Source.lua', true))()
 ```
-## Creating the window
+To start the library you must setup a few things as the following code.
 ```lua
-local Window = CynnUI:CreateWindow({
-  Name = 'Cynn UI Default',
-  MainFrameUIStroke = Color3.fromRGB(10, 38, 161),
-  SecondaryFrameUIStroke = Color3.fromRGB(139, 0, 0)
+local Window = Atomic:StartAsset({
+  Title = 'Atomic UI', -- Your desired title.
+  UIController_Frame = true, -- Always set this to true, else there wont be any way to close or minimize the UI.
+  OpenCloseKeybind = Enum.KeyCode.BackSlash, -- This is your keybind to open the UI after you minimized it.
 })
 ```
-## Creating a tab
+After this you should create a tab to hold an element. To create a tab, simply follow this.
 ```lua
-local Tab = Window:CreateTab('Tab Name')
+local Tab = Window:PlaceTab('Tab Name', 1234567890)
 ```
-## Creating a button
+FYI; The tab uses image instead of text box. Default image is home icon.
+After all things are set, we can get into the element functions.
+
+## Button
+To create a button, do this.
 ```lua
-local Button = Tab:CreateButton({
-  Name = 'Button 1',
+local Button = Tab:DefineButton({
+  Name = 'Button name',
+  Interact = 'Interaction', -- Totally not heavily inspired from Rayfield
   Callback = function()
-    -- The function which will get called if you click the button.
+    -- The function you want to execute when the button is clicked
   end
 })
 ```
-You can also do this to save time if you don't know.
+You of course can update a button. I will explain this function one by one. The function is only one and it looks like this.
 ```lua
-local function prinn()
-  print('Cllicked')
-end
+Button:Update(arg, bool)
+```
+To update a button's name, you do this.
+```lua
+Button:Update('New button name', false) -- Make sure you put the boolean as false otherwise it would change the interact text.
+```
+To update a button's interact text, you do this.
+```lua
+Button:Update('New interact text', true) -- Make sure you put the boolean as true otherwise it would change the name.
+```
+To update a button's function, you do this.
+```lua
+Button:Update(function()
+  -- New function
+end)
+-------------OR--------------
+Button:Update(functionName)
+```
 
-local Button = Tab:CreateButton({
-  Name = 'Click to call function',
-  Callback = prinn -- This will set the callback to prinn function
-})
-```
-### Updating a button
+## Label
+To create a label, do this.
 ```lua
-Button:SetText('Button title has been changed')
-Button:SetCallback(-- The new function to replace the old function --)
-```
-## Creating a label
+local Label = Tab:DefineLabel('Label content')
+````
+To update a label's content, you do this.
 ```lua
-local Label = Tab:CreateLabel({
-  Content = 'Label text here',
-  MiddleUIGradient = true
-})
+Label:SetContent('New content')
 ```
-### Updating a label
+
+## Slider
+To create a slider, do this.
 ```lua
-Label:Set('Label text here')
-```
-## Creating a slider
-```lua
-local Slider = Tab:CreateSlider({
-  Name = 'A Slider',
-  Min = 50,
-  Max = 100,
-  Default = 50,
-  Callback = function(value)
-    print(value)
+local Slider = Tab:DefineSlider({
+  Name = 'Slider name',
+  Min = 16,
+  Max = 50,
+  FirstValue = 16,
+  Callback = function(Value)
+    -- Value here is a variable that holds the slider's current value.
   end
 })
 ```
-### Updating a slider
+I recommend to set FirstValue not less than Min or not higher than Max.
+
+To update a slider's value, you do this.
 ```lua
-Slider:SetValue(-- The number should not be higher than max)
-Slider:SetGetValue() -- Returns the slider's current value
+Slider:SetValue(10) -- Argument must be number otherwise it would bug.
 ```
-## Creating a toggle
+To get a slider's current value, do this.
 ```lua
-local Toggle = Tab:CreateToggle({
-  Name = 'A toggle here',
-  Callback = function(bool) -- I might add a CurrentState constructor
-    print(bool)
+Slider:RetrieveValue() -- This function returns the current slider value.
+```
+
+## Switch
+To create a switch, you do this.
+```lua
+local Switch = Tab:DefineSwitch({
+  Name = 'Switch name',
+  FirstState = false,
+  Callback = function(State)
+    -- State here is a variable that holds the current switch's state.
   end
 })
 ```
-### Updating a toggle
+To update a switch's state, do this.
 ```lua
-Toggle:SetState(true)
+Switch:SetState(true) -- Argument must be boolean otherwise it would bug.
 ```
-## Creating a dropdown
+
+## Dropdown
+To create a dropdown, you do this.
 ```lua
-local Dropdown = Tab:CreateDropdown({
-  Name = 'A Dropdown',
-  Info = 'An info about the dropdown',
-  Callback = function(v)
-    print(v)
+local Dropdown = Tab:DefineDropdown({
+  Name = 'Dropdown name',
+  Callback = function(Selected)
+    -- Selected here is a variable that holds the selected dropdown item.
   end
 })
 ```
-### Updating a dropdown
+To add an item to a dropdown, do this.
 ```lua
-Dropdown:AddItem('Item name', 99) -- First argument is the item name, second is the item's value
-Dropdown:RemoveItem('Item name') -- Item name must be the same to not create an nil indexing error
-Dropdown:SweepItems() -- Clears every item and its value inside a dropdown
+Dropdown:AddItem('Item name', 'Item value') -- First argument is the item name, second argument is the item's value.
 ```
-## Creating a paragraph
+To remove an item, do this.
 ```lua
-local Paragraph = Tab:CraeteParagraph({
-  Title = 'Title here',
-  Content = 'Content here'
-})
+Dropdown:SetVoid('Item name') -- Item name must exist in a dropdown, otherwise it will index nil and bug.
 ```
-### Updating a paragraph
+To remove all items, do this.
 ```lua
-Paragraph:SetTitle('New Title") -- Argument should be a string
-Paragraph:SetContent('New content, please consider to make this content long or else it will bug') -- Argument shold be a string too
+Dropdown:VoidItem()
 ```
-Big credit to
-# Deity
-For the UI Tutorial.
+
+# Notification
+Best part about this is: The only nice interface i've created
+
+To make a notification, you simply do this.
+```lua
+Atomic:Notify({
+  Title = 'Notification title',
+  Content = 'Notification content here.',
+  Duration = 3
+```
+FYI: Notification will appear from the bottom.
