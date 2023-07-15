@@ -17,6 +17,7 @@ This is a remake of Cynn UI which will be my main UI Library now. I will add mor
 - Remodeling controller frame
 - Revamping close and minimize function
 - Adding notification sound
+- Config saving
 
 # Getting started
 First of all; if you want to use this UI, put this into your code.
