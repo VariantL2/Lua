@@ -595,11 +595,6 @@ function AtomLibrary:StartWindow(Settings)
             UIPadding_4.Parent = Elements
             UIPadding_4.PaddingLeft = UDim.new(0, 1)
             UIPadding_4.PaddingTop = UDim.new(0, 1)
-
-            -- Minimize logics
-            do
-                
-            end
         end
 
         -- Logics
