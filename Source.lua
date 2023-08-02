@@ -1658,8 +1658,6 @@ function AtomLibrary:StartWindow(Settings)
         return elements
     end
 
-    task.delay(3.5, AtomLibrary.LoadConfiguration, AtomLibrary)
-
     return tabHandler
 end
 
