@@ -16,9 +16,10 @@ local viewport = workspace.CurrentCamera.ViewportSize
 local mouse = player:GetMouse()
 
 -- Other Use Variables
-local configFileName;
+--[[local configFileName;
 local configFolderName;
 local configSaveEnabled;
+]]
 local minimized;
 local opened;
 
@@ -339,7 +340,7 @@ function AtomLibrary:StartWindow(Settings)
 
     addDragging(TopBar, Main)
 
-    -- Configuration Saving Function
+    --[[Configuration Saving Function
     do
         pcall(function()
             if not Settings.ConfigurationSaving.FileName then
@@ -360,6 +361,7 @@ function AtomLibrary:StartWindow(Settings)
             end
         end)
     end
+    ]]
 
     -- TopBar Button Logics
     do
@@ -490,17 +492,7 @@ function AtomLibrary:StartWindow(Settings)
                 end
             end)
         end
-
-        --[[
-            Normal = 0, 500, 0, 500
-            ToTween = 0, 500, 0, 52
-        ]]
     end
-
-    --[[
-        Normal: 1.03, 0, 0.02, 0
-        Close = 1.128, 0, 0.02, 0
-    ]]
 
     local tabHandler = {}
 
@@ -535,7 +527,7 @@ function AtomLibrary:StartWindow(Settings)
                             if hasProperty(v, 'BackgroundTransparency') and v:IsA('Frame') then
                                 Tween({Time = .30}, v, {BackgroundTransparency = 1})
                             end
-                            if hasProperty(v, 'TextTransparency') and v:IsA('TextLabel') then
+                            if hasProperty(v, 'TextTransparency') and v:IsA('TextLabel') or v:IsA('TextBox') then
                                 Tween({Time = .30}, v, {TextTransparency = 1})
                             end
                             if hasProperty(v, 'ImageTransparency') and v:IsA('ImageLabel') then
@@ -595,6 +587,11 @@ function AtomLibrary:StartWindow(Settings)
             UIPadding_4.Parent = Elements
             UIPadding_4.PaddingLeft = UDim.new(0, 1)
             UIPadding_4.PaddingTop = UDim.new(0, 1)
+
+            -- Minimize logics
+            do
+                
+            end
         end
 
         -- Logics
@@ -743,14 +740,21 @@ function AtomLibrary:StartWindow(Settings)
                         Tween({Time = .2}, UIStroke, {Color = Color3.fromRGB(255, 255, 255)})
                         Tween({Time = .2}, Interact, {TextColor3 = Color3.fromRGB(170, 170, 170)})
 
-                        local s, retardedError = pcall(args.Callback)
-                        if not s then print('Callback error: '.. retardedError) end
+                        if not args.OnEnd then
+                            local s, retardedError = pcall(args.Callback)
+                            if not s then print('Callback error: '.. retardedError) end
+                        end
                     end
                 end)
 
                 uis.InputEnded:Connect(function(input)
                     if input.UserInputType == Enum.UserInputType.MouseButton1 then
                         mouseDown = false
+
+                        if args.OnEnd then
+                            local s, retardedError = pcall(args.Callback)
+                            if not s then print('Callback error: '.. retardedError) end
+                        end
 
                         if hover then
                             Tween({Time = .2}, UIStroke, {Color = Color3.fromRGB(177, 177, 177)})
@@ -1527,7 +1531,7 @@ function AtomLibrary:StartWindow(Settings)
             local Input_2 = Instance.new("TextBox")
             local UIStrokeInput = Instance.new('UIStroke')
 
-             -- Minimize things
+             -- Special minimize logics
             do
                 local hover;
                 Minimize.MouseEnter:Connect(function()
@@ -1653,6 +1657,231 @@ function AtomLibrary:StartWindow(Settings)
                     if not s then print('Callback error: '.. retardedError) end
                 end)
             end
+        end
+
+        function elements:MakeSection(sectionName)
+            -- Instances
+            local Section = Instance.new("Frame")
+            local UICorner_17 = Instance.new("UICorner")
+            local SectionTitle = Instance.new("TextLabel")
+            local UIPadding_12 = Instance.new("UIPadding")
+
+            local sectionFunctions = {}
+
+            -- Properties
+            do
+                Section.Name = "Section"
+                Section.Parent = Elements
+                Section.BackgroundColor3 = Color3.fromRGB(53, 53, 53)
+                Section.BackgroundTransparency = 1.000
+                Section.BorderColor3 = Color3.fromRGB(0, 0, 0)
+                Section.BorderSizePixel = 0
+                Section.Size = UDim2.new(1, -10, 0, 40)
+
+                UICorner_17.CornerRadius = UDim.new(0, 6)
+                UICorner_17.Parent = Section
+
+                SectionTitle.Name = "SectionTitle"
+                SectionTitle.Parent = Section
+                SectionTitle.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+                SectionTitle.BackgroundTransparency = 1.000
+                SectionTitle.BorderColor3 = Color3.fromRGB(0, 0, 0)
+                SectionTitle.BorderSizePixel = 0
+                SectionTitle.Position = UDim2.new(0, 0, 0, 14)
+                SectionTitle.Size = UDim2.new(0, 460, 0, 20)
+                SectionTitle.Font = Enum.Font.Gotham
+                SectionTitle.Text = sectionName or 'Section'
+                SectionTitle.TextColor3 = Color3.fromRGB(175, 175, 175)
+                SectionTitle.TextSize = 14.000
+                SectionTitle.TextWrapped = true
+                SectionTitle.TextXAlignment = Enum.TextXAlignment.Left
+
+                UIPadding_12.Parent = SectionTitle
+                UIPadding_12.PaddingLeft = UDim.new(0, 15)
+            end
+
+            -- Unuseful Method
+            function sectionFunctions:ChangeName(newName)
+                sectionName = newName
+                SectionTitle.Text = sectionName
+            end
+
+            -- Logics
+            do
+                SectionTitle.MouseEnter:Connect(function()
+                    Tween({Time = .2}, SectionTitle, {TextColor3 = Color3.fromRGB(230, 230, 230)})
+                end)
+
+                SectionTitle.MouseLeave:Connect(function()
+                    Tween({Time = .2}, SectionTitle, {TextColor3 = Color3.fromRGB(175, 175, 175)})
+                end)
+            end
+
+            return sectionFunctions
+        end
+
+        function elements:MakeKeybind(bindSettings)
+            -- Instances
+            local Keybind = Instance.new("Frame")
+            local UIStroke_1 = Instance.new('UIStroke')
+            local UICorner_15 = Instance.new("UICorner")
+            local KeybindTitle = Instance.new("TextLabel")
+            local UIPadding_11 = Instance.new("UIPadding")
+            local KeyFrame = Instance.new("Frame")
+            local UICorner_16 = Instance.new("UICorner")
+            local Key = Instance.new("TextBox")
+            local UIStroke_2 = Instance.new('UIStroke')
+
+            local bindFunctions = {
+                Connection = nil
+            }
+
+            -- Properties
+            do
+                Keybind.Name = "Keybind"
+                Keybind.Parent = Elements
+                Keybind.BackgroundColor3 = Color3.fromRGB(53, 53, 53)
+                Keybind.BorderColor3 = Color3.fromRGB(0, 0, 0)
+                Keybind.BorderSizePixel = 0
+                Keybind.Size = UDim2.new(1, -10, 0, 50)
+
+                UIStroke_1.Parent = Keybind
+                UIStroke_1.ApplyStrokeMode = Enum.ApplyStrokeMode.Border
+                UIStroke_1.Color = Color3.fromRGB(117, 117, 117)
+
+                UICorner_15.CornerRadius = UDim.new(0, 6)
+                UICorner_15.Parent = Keybind
+
+                KeybindTitle.Name = "KeybindTitle"
+                KeybindTitle.Parent = Keybind
+                KeybindTitle.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+                KeybindTitle.BackgroundTransparency = 1.000
+                KeybindTitle.BorderColor3 = Color3.fromRGB(0, 0, 0)
+                KeybindTitle.BorderSizePixel = 0
+                KeybindTitle.Position = UDim2.new(0, 0, 0, 15)
+                KeybindTitle.Size = UDim2.new(0, 290, 0, 20)
+                KeybindTitle.Font = Enum.Font.Gotham
+                KeybindTitle.Text = bindSettings.Title or 'Keybind'
+                KeybindTitle.TextColor3 = Color3.fromRGB(147, 147, 147)
+                KeybindTitle.TextSize = 15.000
+                KeybindTitle.TextWrapped = true
+                KeybindTitle.TextXAlignment = Enum.TextXAlignment.Left
+
+                UIPadding_11.Parent = KeybindTitle
+                UIPadding_11.PaddingLeft = UDim.new(0, 15)
+
+                KeyFrame.Name = "KeyFrame"
+                KeyFrame.Parent = Keybind
+                KeyFrame.AnchorPoint = Vector2.new(1, 0.5)
+                KeyFrame.BackgroundColor3 = Color3.fromRGB(31, 31, 31)
+                KeyFrame.BorderColor3 = Color3.fromRGB(0, 0, 0)
+                KeyFrame.BorderSizePixel = 0
+                KeyFrame.Position = UDim2.new(0.967749476, 0, 0.5, 0)
+                KeyFrame.Size = UDim2.new(0, 34, 0, 30)
+
+                UICorner_16.CornerRadius = UDim.new(0, 9)
+                UICorner_16.Parent = KeyFrame
+
+                Key.Name = "Key"
+                Key.Parent = KeyFrame
+                Key.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+                Key.BackgroundTransparency = 1.000
+                Key.BorderColor3 = Color3.fromRGB(0, 0, 0)
+                Key.BorderSizePixel = 0
+                Key.Position = UDim2.new(0, 0, 0.300000012, 0)
+                Key.Size = UDim2.new(1.10000002, -10, -0.100000001, 14)
+                Key.Font = Enum.Font.Gotham
+                Key.Text = bindSettings.FirstKeybind
+                Key.TextColor3 = Color3.fromRGB(173, 173, 173)
+                Key.TextSize = 14.000
+                Key.TextWrapped = true
+
+                UIStroke_2.Parent = KeyFrame
+                UIStroke_2.ApplyStrokeMode = Enum.ApplyStrokeMode.Border
+                UIStroke_2.Color = Color3.fromRGB(117, 117, 117)
+            end
+
+            -- Methods
+            function bindFunctions:SetKey(newKey)
+                Key.Text = tostring(newKey)
+                bindSettings.FirstKeybind = tostring(newKey)
+                Key:ReleaseFocus()
+            end
+
+            -- Logics
+            do
+                KeyFrame.Size = UDim2.new(0, Key.TextBounds.X + 50, 0, 30)
+
+                local checkingForKey = false
+
+                Key.Focused:Connect(function()
+                    checkingForKey = true
+                    Key.Text = ''
+                end)
+
+                Key.FocusLost:Connect(function()
+                    checkingForKey = false
+                    if Key == nil or Key.Text == '' then
+                        Key.Text = bindSettings.FirstKeybind
+                    end
+                    Tween({Time = .55, Style = Enum.EasingStyle.Quint}, KeyFrame, {Size = UDim2.new(0, Key.TextBounds.X + 50, 0, 30)})
+                end)
+
+                Keybind.MouseEnter:Connect(function()
+                    Tween({Time = .2}, UIStroke_1, {Color = Color3.fromRGB(177, 177, 177)})
+                    Tween({Time = .2}, UIStroke_2, {Color = Color3.fromRGB(150, 150, 150)})
+                end)
+
+                Keybind.MouseLeave:Connect(function()
+                    Tween({Time = .2}, UIStroke_1, {Color = Color3.fromRGB(117, 117, 117)})
+                    Tween({Time = .2}, UIStroke_2, {Color = Color3.fromRGB(117, 117, 117)})
+                end)
+
+                uis.InputBegan:Connect(function(input, gpe)
+                    if checkingForKey then
+                        if input.KeyCode ~= Enum.KeyCode.Unknown and input.KeyCode ~= Settings.CloseBind then
+                            local splitMsg = string.split(tostring(input.KeyCode), '.')
+                            local NoEnum = splitMsg[3]
+                            Key.Text = tostring(NoEnum)
+                            bindSettings.FirstKeybind = tostring(NoEnum)
+                            Tween({Time = .55, Style = Enum.EasingStyle.Quint}, KeyFrame, {Size = UDim2.new(0, Key.TextBounds.X + 50, 0, 30)})
+                            Key:ReleaseFocus()
+                        end
+                    elseif bindSettings.FirstKeybind ~= nil and input.KeyCode == Enum.KeyCode[bindSettings.FirstKeybind] and not gpe then
+                        local held = true
+                        bindFunctions.Connection = input.Changed:Connect(function(prop)
+                            if prop == 'UserInputState' then
+                                bindFunctions.Connection:Disconnect()
+                                bindFunctions.Connection = nil
+                                held = false
+                            end
+                        end)
+
+                        if not bindSettings.FireWhenHold then
+                            local s, retardedError = pcall(bindSettings.Callback)
+                            if not s then print('Callback error: '.. retardedError) end
+                        else
+                            wait(.25)
+                            if held then
+                                local loop; loop = runService.Stepped:Connect(function()
+                                    if not held then
+                                        bindSettings.Callback(false)
+                                        loop:Disconnect()
+                                    else
+                                        bindSettings.Callback(true)
+                                    end
+                                end)
+                            end
+                        end
+                    end
+                end)
+
+                Key:GetPropertyChangedSignal('Text'):Connect(function()
+                    Tween({Time = .55, Style = Enum.EasingStyle.Quint}, KeyFrame, {Size = UDim2.new(0, Key.TextBounds.X + 50, 0, 30)})
+                end)
+            end
+
+            return bindFunctions
         end
 
         return elements
