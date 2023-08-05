@@ -12,6 +12,7 @@ loadstring(game:HttpGet("https://raw.githubusercontent.com/VariantL2/Lua/main/So
 - Dropdowns
 - Inputs
 - Keybinds
+- Sections
 
 ... and more to be added.
 
