@@ -1,6 +1,7 @@
 ![AtomBackground](https://github.com/VariantL2/Lua/assets/129179825/ac02f680-af00-4e57-ac7b-eec5d4a73b27)
 # Atom
 Atom is a free and open sourced Roblox UI Library.
+- https://discordapp.com/users/769379614774525973
 # Loadstring
 ```lua
 loadstring(game:HttpGet("https://raw.githubusercontent.com/VariantL2/Lua/main/Source.lua"))()
