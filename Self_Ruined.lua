@@ -53,48 +53,38 @@ local function serverhop()
         local random = servers[math.random(1, #servers)]
         
         TeleportService:TeleportToPlaceInstance(placeid, random, Players.LocalPlayer)
-        rprint(("Found Server: %s"):format(random),"light_cyan")
         task.wait(1)
     end
 end
 
 if not isfolder('ServerHop') then
-    rprint("ServerHop folder not found","light_red")
-	makefolder('ServerHop')
-    rprint("ServerHop folder created","light_green")
+    makefolder('ServerHop')
 end
 
 if not isfolder(('ServerHop\\%s'):format(placeid)) then
-    rprint('Storage folder not found',"light_red")
     makefolder(('ServerHop\\%s'):format(placeid))
-    rprint('Storage folder created',"light_green")
 end
 
 if isfile(("ServerHop\\%s\\data.json"):format(placeid)) then
     local filedata = readfile(('ServerHop\\%s\\data.json'):format(placeid))
     data = jsond(filedata)
-    rprint("File data Loaded Successfully","light_green")
 else
-    rprint("File data not found","light_red")
     data = {
         jobids = {},
         ammount = 0
     }
     writefile(('ServerHop\\%s\\data.json'):format(placeid), jsone(data))
-    rprint("File data Created","light_green")
 end
 
 if isfile(("ServerHop\\%s\\code.lua"):format(placeid)) then
     local filedata = readfile(('ServerHop\\%s\\code.lua'):format(placeid))
-    if #filedata == 0 then return rprint(('input your code into the .lua file located at workspace\\ServerHop\\%s\\code.lua'):format(game.PlaceId),"light_red") end
+    if #filedata == 0 then return end
     filecode = function()
         loadstring(filedata)()
-        return rprint('Code executed','light_green')
     end
 else
     rprint('FileCode not found','light_red')
     writefile(("ServerHop\\%s\\code.lua"):format(placeid),'')
-    return rprint(('input your code into the .lua file located at workspace\\ServerHop\\%s\\code.lua'):format(placeid),"light_red")
 end
 
 if not table.find(data.jobids,jobid) then
