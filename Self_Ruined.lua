@@ -83,7 +83,6 @@ if isfile(("ServerHop\\%s\\code.lua"):format(placeid)) then
         loadstring(filedata)()
     end
 else
-    rprint('FileCode not found','light_red')
     writefile(("ServerHop\\%s\\code.lua"):format(placeid),'')
 end
 
