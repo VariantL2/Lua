@@ -14,7 +14,7 @@ elseif getgenv().FunctionMode then
         print(givenArgs)
     end
     local Oldfunction; Oldfunction = hookfunction(test, function(...)
-        print(...)
+        print(...[1])
     end)
     test('yllufseccus dekrow noitcunfkooh')
 end
