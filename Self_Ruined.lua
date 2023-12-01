@@ -15,7 +15,9 @@ elseif getgenv().FunctionMode then
     end
     local Oldfunction; Oldfunction = hookfunction(test, function(...)
         local args = {...}
-        print(args[1]:reverse())
+        if checkcaller() then
+            args[1] = args[1]:reverse()
+        end
         return Oldfunction(args)
     end)
     test('yllufseccus dekrow noitcunfkooh')
