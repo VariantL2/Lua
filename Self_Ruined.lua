@@ -18,5 +18,5 @@ elseif getgenv().FunctionMode then
         print(args[1]:reverse())
         return Oldfunction(args)
     end)
-    print('yllufseccus dekrow noitcunfkooh')
+    test('yllufseccus dekrow noitcunfkooh')
 end
