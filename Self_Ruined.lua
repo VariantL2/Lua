@@ -16,9 +16,8 @@ elseif getgenv().FunctionMode then
     local Oldfunction; Oldfunction = hookfunction(test, function(...)
         local args = {...}
         if checkcaller() then
-            warn(args)
+            warn(args[1])
         end
-        return Oldfunction(args)
     end)
     test('yllufseccus dekrow noitcunfkooh')
 end
