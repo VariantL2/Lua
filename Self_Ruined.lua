@@ -1,6 +1,3 @@
-getgenv().MetaMode = false
-getgenv().FunctionMode = false
-
 if getgenv().MetaMode then
     local Oldmeta; Oldmeta = hookmetamethod(game, '__namecall', newcclosure(function(self, ...)
         local args = {...}
