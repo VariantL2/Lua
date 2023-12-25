@@ -34,7 +34,7 @@ while True:
       time_to_slp = (conv*60+10)
       usdid = requests.post(f"https://users.roblox.com/v1/usernames/users", json={"usernames": [rain_['host']]}).json()['data'][0]['id']
       data = {
-         "content": "",
+         "content": "<@769379614774525973>",
          "username": "Rain Notifier | made by coxy57"
       }
       data["embeds"] = [
