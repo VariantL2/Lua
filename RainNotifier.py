@@ -5,8 +5,6 @@ import http.client, json, requests, time
 # made by coxy.57
 # made by coxy.57
 
-print('Rain Notifier is running!')
-
 webhook = "https://discord.com/api/webhooks/1188313053889044570/VZL3Jn1NOuz14kKQcYxlTX7__LZnaye_HNZhOHW3gKXTqVKHEq827Qmzghl8o9yBY822"
 time_sleep_every_loop = 5
 # DONT REMOVE OR IT WONT WORK
